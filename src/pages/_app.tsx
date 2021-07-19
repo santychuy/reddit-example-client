@@ -1,6 +1,12 @@
 import type { AppProps } from 'next/app';
+import { ThemeProvider } from '@material-ui/styles';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
-export default MyApp;
+import { theme } from '../theme';
+
+const App = ({ Component, pageProps }: AppProps) => (
+  <ThemeProvider theme={theme}>
+    <Component {...pageProps} />
+  </ThemeProvider>
+);
+
+export default App;

@@ -1,3 +1,11 @@
-const HomePage = () => <div>Hola</div>;
+import Button from '@material-ui/core/Button';
+
+const HomePage = () => (
+  <>
+    <Button variant='contained' color='primary'>
+      Hello World
+    </Button>
+  </>
+);
 
 export default HomePage;
