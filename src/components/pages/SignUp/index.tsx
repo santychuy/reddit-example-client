@@ -1,6 +1,9 @@
+import { useRouter } from 'next/router';
 import { Formik, Form, Field } from 'formik';
 import { styled } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+
+import { useSignInMutation } from '../../../graphql/generated/graphql';
 
 interface FormSignUpValues {
   username: string;
@@ -12,16 +15,25 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 }));
 
 const SignUpContent = () => {
+  const { push } = useRouter();
   const initialValues: FormSignUpValues = {
     username: '',
     password: '',
   };
 
+  const [signIn] = useSignInMutation();
+
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values) => {
-        alert(JSON.stringify(values, null, 2));
+      onSubmit={async (values, action) => {
+        try {
+          await signIn({ variables: { ...values } });
+          action.resetForm();
+          push('/');
+        } catch (e) {
+          console.log(e.message);
+        }
       }}
     >
       {() => (
@@ -29,7 +41,7 @@ const SignUpContent = () => {
           <label htmlFor='username'>Username</label>
           <Field id='username' name='username' placeholder='santychuy' />
           <label htmlFor='password'>Password</label>
-          <Field id='password' name='password' />
+          <Field id='password' name='password' type='password' />
           <SubmitButton type='submit'>Submit</SubmitButton>
         </Form>
       )}

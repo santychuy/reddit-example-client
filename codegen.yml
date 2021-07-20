@@ -1,0 +1,11 @@
+schema: 'http://localhost:4000/graphql'
+documents: 'src/graphql/**/*.ts'
+generates:
+  src/graphql/generated/graphql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    hooks:
+      afterOneFileWrite:
+        - prettier --write"
